@@ -16,6 +16,14 @@
         android:layout_height="wrap_content"
         android:text="切换"
         android:textColor="@android:color/black"/>
+    <Button
+        android:id="@+id/cut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/change"
+        android:text="裁切图片和保存"
+        android:layout_marginLeft="50dp"
+        android:textColor="@android:color/black"/>
     <!--<com.yang.test.photobook.weiget.VHTextView-->
     <!--android:id="@+id/vertextview"-->
     <!--android:layout_width="wrap_content"-->
@@ -41,10 +49,15 @@
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"/>
 
-        <com.yang.test.photobook.weiget.VHTextView
-            android:id="@+id/vh_textView"
+        <RelativeLayout
+            android:id="@+id/rl_childview"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+
+        </RelativeLayout>
+
     </com.yang.test.photobook.weiget.PhotoBookView>
 
 </RelativeLayout>

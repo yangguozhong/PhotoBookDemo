@@ -1,9 +1,12 @@
 package com.yang.test.photobook.weiget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.yang.test.photobook.BookBean;
 
@@ -11,16 +14,16 @@ public class PhotoBookView extends ViewGroup {
     private PhotoBookView photoBookLayout;
     private BookBean bookBean;
     private View photoView;
-    private View textView;
+    private RelativeLayout container;
     private int photo_padding = 0;
     private int index;
     private Context mContext;
     private BookBean.BandTemplate mTemplate;
     private BookBean.BandTemplate.TextEntity textEntity;
     private BookBean.BandTemplate.ImageEntity imageEntity;
-    private float scale = 1.0f;
+    private double scale = 1.0f;
 
-    public void setScale(float scale) {
+    public void setScale(double scale) {
         this.scale = scale;
     }
 
@@ -37,7 +40,7 @@ public class PhotoBookView extends ViewGroup {
         mContext = context;
         photoBookLayout = this;
         photoView = getChildAt(0);
-        textView = getChildAt(1);
+        container = (RelativeLayout) getChildAt(1);
     }
 
     /**
@@ -91,15 +94,15 @@ public class PhotoBookView extends ViewGroup {
                     photoView.measure(layoutParams.width, layoutParams.height);
                 }
                 if (textEntity != null) {
-                    textView = getChildAt(1);
-                    LayoutParams photoLayoutParams = (LayoutParams) textView.getLayoutParams();
+                    container = (RelativeLayout) getChildAt(1);
+                    LayoutParams photoLayoutParams = (LayoutParams) container.getLayoutParams();
                     photoLayoutParams.left = left + scaleView(textEntity.getX());
                     photoLayoutParams.top = top + scaleView(textEntity.getY());
                     photoLayoutParams.width = scaleView(textEntity.getWidth());
                     photoLayoutParams.height = scaleView(textEntity.getHeight());
-                    textView.measure(photoLayoutParams.width, photoLayoutParams.height);
-                }else{
-                    textView.setVisibility(View.GONE);
+                    container.measure(photoLayoutParams.width, photoLayoutParams.height);
+                } else {
+                    container.setVisibility(View.GONE);
                 }
             }
             setMeasuredDimension(scaleView(bookBean.getWidth()), scaleView(bookBean.getHeight()));
@@ -113,7 +116,7 @@ public class PhotoBookView extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         photoView = getChildAt(0);
-        textView = getChildAt(1);
+        container = (RelativeLayout) getChildAt(1);
         LayoutParams childBackgroundLayoutParams = (LayoutParams) photoView.getLayoutParams();
         photoView.layout(childBackgroundLayoutParams.left,
                 childBackgroundLayoutParams.top,
@@ -121,14 +124,19 @@ public class PhotoBookView extends ViewGroup {
                 childBackgroundLayoutParams.top + childBackgroundLayoutParams.height);
 //        photoView.setBackgroundColor(Color.parseColor("#ffffff"));
 
-        LayoutParams photoLayoutParams = (LayoutParams) textView.getLayoutParams();
-        textView.layout(photoLayoutParams.left,
+        LayoutParams photoLayoutParams = (LayoutParams) container.getLayoutParams();
+        container.layout(photoLayoutParams.left,
                 photoLayoutParams.top,
                 photoLayoutParams.left + photoLayoutParams.width,
                 photoLayoutParams.top + photoLayoutParams.height);
 
     }
 
+    public void addTextView(View textView) {
+        container = (RelativeLayout) getChildAt(1);
+        container.removeAllViews();
+        container.addView(textView);
+    }
 //    @Override
 //    public android.view.ViewGroup.LayoutParams generateLayoutParams(
 //            AttributeSet attrs) {
@@ -171,4 +179,16 @@ public class PhotoBookView extends ViewGroup {
         }
 
     }
+
+    /**
+     * 剪切图片，返回剪切后的bitmap对象
+     *
+     * @return
+     */
+    public Bitmap clip() {
+        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(),
+                Bitmap.Config.ARGB_8888);
+        return bitmap;
+    }
+
 }
