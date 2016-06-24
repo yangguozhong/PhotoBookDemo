@@ -2,25 +2,24 @@ package com.yang.test.photobook.weiget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.yang.test.photobook.BookBean;
+import com.yang.test.photobook.BookTemplate;
 
 public class PhotoBookView extends ViewGroup {
     private PhotoBookView photoBookLayout;
-    private BookBean bookBean;
+    private BookTemplate bookTemplate;
     private View photoView;
     private RelativeLayout container;
     private int photo_padding = 0;
     private int index;
     private Context mContext;
-    private BookBean.BandTemplate mTemplate;
-    private BookBean.BandTemplate.TextEntity textEntity;
-    private BookBean.BandTemplate.ImageEntity imageEntity;
+    private BookTemplate.BandTemplate mTemplate;
+    private BookTemplate.BandTemplate.TextEntity textEntity;
+    private BookTemplate.BandTemplate.ImageEntity imageEntity;
     private double scale = 1.0f;
 
     public void setScale(double scale) {
@@ -46,15 +45,15 @@ public class PhotoBookView extends ViewGroup {
     /**
      * view 属于第几个条目
      *
-     * @param bookBean
+     * @param bookTemplate
      * @param index    数据第几个模板
      */
-    public void setBookBean(BookBean bookBean, int index) {
-        this.bookBean = bookBean;
+    public void setBookBean(BookTemplate bookTemplate, int index) {
+        this.bookTemplate = bookTemplate;
         this.index = index;
         try {
-            if (bookBean.getBand() != null && bookBean.getBand().size() > 0) {
-                mTemplate = bookBean.getBand().get(index);
+            if (bookTemplate.getBand() != null && bookTemplate.getBand().size() > 0) {
+                mTemplate = bookTemplate.getBand().get(index);
                 textEntity = mTemplate.getText();
                 imageEntity = mTemplate.getImage();
             }
@@ -79,11 +78,11 @@ public class PhotoBookView extends ViewGroup {
         int rh = MeasureSpec.getSize(heightMeasureSpec);
         int left = 0;
         int top = 0;
-        if (bookBean == null) {
+        if (bookTemplate == null) {
             setMeasuredDimension(rw, rh);
         } else {
             if (mTemplate != null) {
-//                setMeasuredDimension(dip2px(mContext, bookBean.getWidth()), dip2px(mContext, bookBean.getHeight()));
+//                setMeasuredDimension(dip2px(mContext, bookTemplate.getWidth()), dip2px(mContext, bookTemplate.getHeight()));
                 if (imageEntity != null) {
                     photoView = getChildAt(0);
                     LayoutParams layoutParams = (LayoutParams) photoView.getLayoutParams();
@@ -105,7 +104,7 @@ public class PhotoBookView extends ViewGroup {
                     container.setVisibility(View.GONE);
                 }
             }
-            setMeasuredDimension(scaleView(bookBean.getWidth()), scaleView(bookBean.getHeight()));
+            setMeasuredDimension(scaleView(bookTemplate.getWidth()), scaleView(bookTemplate.getHeight()));
         }
     }
 

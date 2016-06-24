@@ -18,14 +18,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
 
 public class VHTextActivity extends AppCompatActivity {
     private PhotoBookView photobookView;
     private ImageView imageView;
     private VHTextView vhTextView;
     private int index = 7;
-    private BookBean.BandTemplate.TextEntity mtextEntity;
+    private BookTemplate.BandTemplate.TextEntity mtextEntity;
     private RelativeLayout rl_chiLayout;
     private double currentScale;
 
@@ -33,14 +32,14 @@ public class VHTextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vhtext);
-        final BookBean bookbean = new Gson().fromJson(getJson(this, "json/book_photo.json"), BookBean.class);
+        final BookTemplate bookbean = new Gson().fromJson(getJson(this, "json/book_photo.json"), BookTemplate.class);
         mtextEntity = bookbean.getBand().get(1).getText();
 
         findViewById(R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 index = 1;
-                BookBean.BandTemplate template = bookbean.getBand().get(index);
+                BookTemplate.BandTemplate template = bookbean.getBand().get(index);
                 photobookView.setBookBean(bookbean, index);
                 if (template != null) {
                     drawTextView(template.getText(), template.getOrientation(), "请输入文字");
@@ -76,7 +75,7 @@ public class VHTextActivity extends AppCompatActivity {
         photobookView.setBookBean(bookbean, 7);
         imageView = (ImageView) findViewById(R.id.drawImage);
         imageView.setBackgroundResource(R.mipmap.test);
-        BookBean.BandTemplate template = bookbean.getBand().get(index);
+        BookTemplate.BandTemplate template = bookbean.getBand().get(index);
         if (template != null) {
             drawTextView(template.getText(), template.getOrientation(), getResources().getString(R.string.poem));
         }
@@ -89,7 +88,7 @@ public class VHTextActivity extends AppCompatActivity {
     }
 
 
-    public void drawTextView(BookBean.BandTemplate.TextEntity textEntity, int oritation, String text) {
+    public void drawTextView(BookTemplate.BandTemplate.TextEntity textEntity, int oritation, String text) {
         if (textEntity == null) return;
         vhTextView = new VHTextView(VHTextActivity.this);
         switch (oritation) {
