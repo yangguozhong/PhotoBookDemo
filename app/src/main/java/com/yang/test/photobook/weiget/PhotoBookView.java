@@ -74,12 +74,11 @@ public class PhotoBookView extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int rw = MeasureSpec.getSize(widthMeasureSpec);
-        int rh = MeasureSpec.getSize(heightMeasureSpec);
         int left = 0;
         int top = 0;
         if (bookTemplate == null) {
-            setMeasuredDimension(rw, rh);
+            setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                    getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));
         } else {
             if (mTemplate != null) {
 //                setMeasuredDimension(dip2px(mContext, bookTemplate.getWidth()), dip2px(mContext, bookTemplate.getHeight()));
