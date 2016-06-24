@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         bt_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent  = new Intent(MainActivity.this,VHTextActivity.class);
+                Intent intent  = new Intent(MainActivity.this,PhotoBookEditActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
